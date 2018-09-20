@@ -1024,7 +1024,7 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
     canvas{box-sizing:border-box;border:2px solid fuchsia;position: absolute;left:0;top:0px;margin-top:0px;}
     h2,h3{color:white;position:fixed:left:0;top:0;z-index:3;margin:3px 0 0 10px;}
   </style>
-      <div style="display:none;">111</div>
+      <div style="display:none;">88</div>
     <h3 id="h3"></h3>
     
     <video id="video" style="" autoplay></video>
@@ -1094,13 +1094,15 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
       function tick() {
           requestAnimationFrame(tick);
           
-          if(run_game && !once){
-            once = true
+          if(run_game){
+            
+            
             //void ctx.putImageData(imagedata, dx, dy);
             context.clearRect(0,0,canvas.width,canvas.height)
             context.putImageData(imageData,0,0)
             //document.body.removeChild(video)
             //video.pause()
+            
             
             let corner = markers[0].corners[0]
             //alert(`x:${corner.x},y:${corner.y}`)
@@ -1127,7 +1129,7 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
               //保存data结束探测
               if (markers.length > 0) {
                   run_game = true
-                  alert(`run_game:${run_game}`)
+                  
                    // h3.innerHTML = 666
                   //draw2DImg(markers)
                   //drawCorners(markers)
