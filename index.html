@@ -1024,7 +1024,7 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
     canvas{box-sizing:border-box;border:2px solid fuchsia;position: absolute;left:0;top:0px;margin-top:0px;}
     h2,h3{color:white;position:fixed:left:0;top:0;z-index:3;margin:3px 0 0 10px;}
   </style>
-      <div style="display:none;">45555</div>
+      <div style="display:none;">45555555</div>
     <h3 id="h3"></h3>
     
     <video id="video" style="" autoplay></video>
@@ -1097,11 +1097,11 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
             //void ctx.putImageData(imagedata, dx, dy);
             context.clearRect(0,0,canvas.width,canvas.height)
             context.putImageData(imageData,0,0)
-            document.body.removeChild(video)
-            video.pause()
+            //document.body.removeChild(video)
+            //video.pause()
             
             let corner = markers[0].corners[0]
-            alert(`x:${corner.x},y:${corner.y}`)
+            //alert(`x:${corner.x},y:${corner.y}`)
             
             
             
