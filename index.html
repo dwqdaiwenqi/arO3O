@@ -1044,7 +1044,7 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
           canvas = document.getElementById("canvas")
           context = canvas.getContext("2d")
           canvas.width = innerWidth
-          canvas.height = innerWidth
+          canvas.height = innerHeight
           //video视觉上不与与innerWidth、innerHeigth相同，有黑边，但宽高已经正确设置
           alert(`
             ${video.offsetWidth},${video.offsetHeight}|
