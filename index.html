@@ -1027,7 +1027,7 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
     <div style="display:none;">23333</div>
     <h3 id="h3"></h3>
     
-    <video id="video" style="" autoplay></video>
+    <video id="video" loop autoplay></video>
     
     
     <!-- <canvas id="canvas" ></canvas> -->
@@ -1383,8 +1383,11 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
           }
         })
         
+        console.log(`devices:${devices}`)
         navigator.mediaDevices.getUserMedia({
-          video: {deviceId:{exact: devices[1].deviceId}},
+          video: {
+            deviceId:{exact: devices[devices.length-1].deviceId}
+          },
           audio: false
         })
         .then(stream => {
@@ -1424,6 +1427,7 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
         if(video.HAVE_ENOUGH_DATA && detector){
           c.drawImage(video, 0, 0, stage.width, stage.height)
           let imageData = c.getImageData(0, 0, stage.width, stage.height)
+          console.log(`imageData:${imageData.length}`);
           c.clearRect(0,0, stage.width, stage.height)
 
           markers = detector.detect(imageData)
