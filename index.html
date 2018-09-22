@@ -1427,7 +1427,7 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
         if(video.HAVE_ENOUGH_DATA && detector){
           c.drawImage(video, 0, 0, stage.width, stage.height)
           let imageData = c.getImageData(0, 0, stage.width, stage.height)
-          console.log(`imageData:${imageData.length}`);
+          console.log(`imageData.width:${imageData.width}`);
           c.clearRect(0,0, stage.width, stage.height)
 
           markers = detector.detect(imageData)
