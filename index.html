@@ -1063,7 +1063,56 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
       var once = false
 
       var markers = []
-     
+      
+      var scan_group = new cax.Group()
+      stage.add(scan_group)
+      // var scan_line_group = new cax.Group()
+      // stage.add(scan_line_group)
+
+
+      class ScanLine extends cax.Group {
+        constructor(){
+          super()
+          var line = new cax.Graphics()
+          this.add(line)
+          line.shadow = {
+            color: '#3beef7',
+            offsetX: 0,
+            offsetY: 0,
+            blur: 10
+          }
+    
+          
+          line
+          .strokeStyle('white')
+          .lineWidth(2)
+          .beginPath()
+          .moveTo(0,0)
+          .lineTo(stage.width,0)
+          .closePath()
+          .stroke()
+          
+          //line.y = 250
+          
+          var that = this
+          new TWEEN.Tween({y:-60})
+          .easing(TWEEN.Easing.Linear.None)
+          .onUpdate(function(){
+            line.y = this.y
+
+            console.log(`line.y:${line.y}`)
+          })
+          .to({y:stage.height+60},2888)
+          .repeat(Infinity)
+          .start()
+
+        }
+      }
+
+      // var sline = new ScanLine()
+      // scan_line_group.add(sline)
+
+
       class Scan extends cax.Group {
         constructor(corners){
           super()
@@ -1106,9 +1155,12 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
           var that = this
           new TWEEN.Tween({t:0})
           .easing(TWEEN.Easing.Linear.None)
-          .to({t:1},666)
+          .to({t:1},433)
           .onUpdate(function(){
             that.scan_bord.alpha = this.t
+          })
+          .onComplete(()=>{
+
           })
           .start()
 
@@ -1124,7 +1176,8 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
           corners = markers[i].corners
           
           let scan = new Scan(corners)
-          stage.add( scan)
+          scan_group.add(scan)
+          //stage.add( scan)
 
         }
       }
@@ -1202,6 +1255,19 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
       //   // .repeat(2)
       //   // .start()
       // }
+      
+        
+      var scan_line_y = -60
+      
+      new TWEEN.Tween({y:-60})
+      .to({y:stage.height+60},2888)
+      .easing(TWEEN.Easing.Linear.None)
+      .onUpdate(function(){
+        scan_line_y = this.y
+      })
+      .repeat(Infinity)
+      .start()
+
 
       cax.tick(()=>{
         stage.update()
@@ -1221,14 +1287,34 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
         if(video.HAVE_ENOUGH_DATA && detector){
           c.drawImage(video, 0, 0, stage.width, stage.height)
           let imageData = c.getImageData(0, 0, stage.width, stage.height)
-          console.log(`imageData.width:${imageData.width}`);
+          // console.log(`imageData.width:${imageData.width}`);
+
           c.clearRect(0,0, stage.width, stage.height)
 
           markers = detector.detect(imageData)
           if(markers.length > 0) {
             start_game = true
           }
+        }
+        
 
+        {
+          c.save()
+          c.translate(0,scan_line_y)
+          c.lineWidth = 2
+          
+          c.shadowColor = '#3beef7'
+          c.shadowOffsetY = 0
+          c.shadowOffsetX = 0
+          c.shadowBlur = 10
+
+          c.strokeStyle = 'white'
+          c.beginPath()
+          c.moveTo(0,0)
+          c.lineTo(stage.width,0)
+          c.closePath()
+          c.stroke()
+          c.restore()
         }
  
       })
