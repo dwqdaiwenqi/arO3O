@@ -1066,52 +1066,62 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
       
       var scan_group = new cax.Group()
       stage.add(scan_group)
+
+      var hole_group = new cax.Group()
+      stage.add(hole_group)
       // var scan_line_group = new cax.Group()
       // stage.add(scan_line_group)
 
 
-      class ScanLine extends cax.Group {
+      // var sline = new ScanLine()
+      // scan_line_group.add(sline)
+      
+
+      class BlackHole extends cax.Group {
         constructor(){
           super()
-          var line = new cax.Graphics()
-          this.add(line)
-          line.shadow = {
-            color: '#3beef7',
-            offsetX: 0,
-            offsetY: 0,
-            blur: 10
-          }
-    
-          
-          line
-          .strokeStyle('white')
-          .lineWidth(2)
-          .beginPath()
-          .moveTo(0,0)
-          .lineTo(stage.width,0)
-          .closePath()
-          .stroke()
-          
-          //line.y = 250
-          
-          var that = this
-          new TWEEN.Tween({y:-60})
-          .easing(TWEEN.Easing.Linear.None)
-          .onUpdate(function(){
-            line.y = this.y
 
-            console.log(`line.y:${line.y}`)
+          this.hole = new cax.Bitmap('./blackhole.png')
+          // 800 800 
+          this.hole.originX = 400
+          this.hole.originY = 400
+          this.add(this.hole)
+          
+          this.default_scale = .3
+          
+          this.scale = this.default_scale
+          
+
+          this.scale = 0
+
+          this.visible = false
+          
+        }
+        run(){
+          this.visible = true
+
+          var that = this
+          new TWEEN.Tween({scale:0})
+          .easing(TWEEN.Easing.Quartic.InOut)
+          .to({scale:this.default_scale+.3},2333)
+          .onUpdate(function(){
+            that.scale = this.scale
           })
-          .to({y:stage.height+60},2888)
+          .start()
+
+          new TWEEN.Tween({rot:0})
+          .easing(TWEEN.Easing.Linear.None)
+          .to({rot:360},14333)
+          .onUpdate(function(){
+            that.rotation = this.rot
+          })
           .repeat(Infinity)
           .start()
+        }
+        update(){
 
         }
       }
-
-      // var sline = new ScanLine()
-      // scan_line_group.add(sline)
-
 
       class Scan extends cax.Group {
         constructor(corners){
@@ -1121,6 +1131,8 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
 
           this.scan_bord = new cax.Graphics()
           this.add(this.scan_bord)
+          this.scan_bord.alpha = 0
+
           this.scan_bord.shadow = {
             color: '#3beef7',
             offsetX: 0,
@@ -1129,13 +1141,13 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
           }
           this.scan_bord.beginPath()
           this.scan_bord.strokeStyle('white')
-          this.scan_bord.fillStyle('rgba(0,255,255,.6)')
+          this.scan_bord.fillStyle('rgba(0,255,255,.5)')
           this.scan_bord.lineWidth(2)
           
           // console.log(this.corners)
           // {143,76},{297,77},{298,194},{143,194}
           this.scan_bord.moveTo(this.corners[0].x, this.corners[0].y)
-
+          
           for (let j = 1; j < this.corners.length; ++j) {
             let corner = this.corners[j]
             //this.clipPath.moveTo(corner.x, corner.y)
@@ -1149,9 +1161,23 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
           this.scan_bord.stroke()
           this.scan_bord.fill()
           
-
-          this.scan_bord.alpha = 0
           
+          this.minX = Math.min.apply(Math, this.corners.map(o=>o.x) )
+          this.maxX = Math.max.apply(Math, this.corners.map(o=>o.x) )
+          this.minY = Math.min.apply(Math, this.corners.map(o=>o.y) )
+          this.maxY = Math.max.apply(Math, this.corners.map(o=>o.y) )
+
+          this.cx = (this.minX+this.maxX)*.5
+          this.cy = (this.minY+this.maxY)*.5
+
+
+          this.fadeScanBord()
+          
+          
+          
+
+        }
+        fadeScanBord(){
           var that = this
           new TWEEN.Tween({t:0})
           .easing(TWEEN.Easing.Linear.None)
@@ -1163,7 +1189,6 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
 
           })
           .start()
-
         }
 
       }
@@ -1177,7 +1202,13 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
           
           let scan = new Scan(corners)
           scan_group.add(scan)
-          //stage.add( scan)
+
+          let hole = new BlackHole()
+          hole_group.add(hole)
+          hole.x = scan.cx
+          hole.y = scan.cy
+          console.log(hole,scan.cx,scan.cy);
+          hole.run()
 
         }
       }
@@ -1187,8 +1218,7 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
         var devices = []
 
         mediaDevices.forEach(mediaDevice => {
-          if (mediaDevice.kind === 'videoinput') {
-            
+          if (mediaDevice.kind === 'videoinput') {  
             //deviceId,label
             devices.push(mediaDevice)
           }
@@ -1255,6 +1285,14 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
       //   // .repeat(2)
       //   // .start()
       // }
+
+      var bh = new BlackHole()
+      hole_group.add(bh)
+        
+      bh.x = stage.width*.5
+      bh.y = stage.height*.5
+
+      bh.run()
       
         
       var scan_line_y = -60
@@ -1297,9 +1335,10 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
           }
         }
         
-
+        
         {
           c.save()
+          c.globalAlpha = .5
           c.translate(0,scan_line_y)
           c.lineWidth = 2
           
