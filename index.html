@@ -1050,201 +1050,7 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
   </script>
   <script src="//static.xyimg.net/gamesite/mu/mufed/common/js/cax.min.js"></script>
   <script>
-  //  var video, canvas, context, imageData, detector
-  //   var img = new Image()
-    
-  //   img.src = 'data:image/png;base64,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'
-
-  //   try{
-  //     function onLoad() {
-  //         video = document.getElementById("video")
-  //         canvas = document.getElementById("canvas")
-  //         context = canvas.getContext("2d")
-  //         canvas.width = innerWidth
-  //         canvas.height = innerHeight
-  //         //video视觉上不与与innerWidth、innerHeigth相同，有黑边，但宽高已经正确设置
-  //         alert(`
-  //           ${video.offsetWidth},${video.offsetHeight}|
-  //           ,${canvas.width},${canvas.height}|
-  //           ，${innerWidth},${innerHeight}====`
-  //          )
-          
- 
-  //         const devices = []
-
-  //         navigator.mediaDevices.enumerateDevices().then(mediaDevices=>{
-  //           mediaDevices.forEach(mediaDevice => {
-  //             if (mediaDevice.kind === 'videoinput') {
-                
-  //               //deviceId,label
-  //               devices.push(mediaDevice)
-  //             }
-  //           })
-
-  //           navigator.mediaDevices.getUserMedia({
-  //             video: {deviceId:{exact: devices[1].deviceId}},
-  //             audio: false
-  //           })
-  //           .then(stream => {
-  //             // src ,srcObject,window.URL.createObjectURL(stream)
-  //             // video.srcObject = stream;
-  //             video.src =  window.URL.createObjectURL(stream)
-  //             // white - black - black - black - black
-  //             // white - black - white - white - white
-  //             // black - white - black - black - white
-  //             // black - white - white - white - black
-  //             // 每行的规则
-
-  //             detector = new AR.Detector()
-
-  //             requestAnimationFrame(tick)
-              
-  //           })
-  //           .catch(e => {
-  //             alert(e)
-  //           });
-
-  //         }).catch(e=>{
-  //           alert(e)
-  //         })
-  //     }
-      
-  //      var run_game = false
-  //      var markers
-  //      var once = false
-       
-  //     function tick() {
-  //         requestAnimationFrame(tick);
-          
-  //         if(run_game){
-            
-            
-  //           //void ctx.putImageData(imagedata, dx, dy);
-  //           context.clearRect(0,0,canvas.width,canvas.height)
-  //           //context.putImageData(imageData,0,0)
-  //           //document.body.removeChild(video)
-  //           //video.pause()
-            
-            
-  //            draw2DImg(markers)
-  //            drawCorners(markers)
-  //            drawId(markers)
-            
-            
-            
-  //           return
-  //         }
-        
-  //         if (video.readyState === video.HAVE_ENOUGH_DATA) {
-  //             snapshot();
-              
-  //             markers = detector.detect(imageData)
-  //             //h3.innerHTML = markers.length
-  //             //document.title = 'markers.length:'+markers.length
-              
-  //             context.save()
-  //             context.globalAlpha = .35
-  //             context.fillStyle = 'hsl(120,50%,50%)'
-  //             context.fillRect(0,0,50,50)
-  //             context.restore()
-                
-  //             //正在绘制中。。
-  //             //保存data结束探测
-  //             if (markers.length > 0) {
-  //                 run_game = true
-                  
-  //                  // h3.innerHTML = 666
-  //                 //draw2DImg(markers)
-  //                 //drawCorners(markers)
-  //                 //drawId(markers)
-                  
-                  
-  //             }else{
-                
-  //             }
-  //         }
-  //     }
-
-  //     function snapshot() {
-  //         context.drawImage(video, 0, 0, canvas.width, canvas.height)
-  //         imageData = context.getImageData(0, 0, canvas.width, canvas.height)
-  //         context.clearRect(0,0,canvas.width,canvas.height)
-  //     }
-
-  //     function drawCorners(markers) {
-  //         var corners, corner, i, j
-
-  //         context.lineWidth = 3
-
-  //         for (i = 0; i < markers.length; ++i) {
-  //             //某个标记的对象
-  //             corners = markers[i].corners
-
-  //             context.strokeStyle = "red"
-  //             context.beginPath()
-
-  //             //标记对象的4个角
-  //             for (j = 0; j < corners.length; ++j) {
-  //                 //当前角
-  //                 corner = corners[j]
-  //                 context.moveTo(corner.x, corner.y)
-  //                 //下个角
-  //                 corner = corners[(j + 1) % corners.length]
-  //                 context.lineTo(corner.x, corner.y)
-  //             }
-
-  //             context.stroke()
-  //             context.closePath()
-
-  //             context.strokeStyle = "green"
-  //             context.strokeRect(corners[0].x - 2, corners[0].y - 2, 4, 4)
-  //         }
-  //     }
-
-  //     function drawId(markers) {
-  //         var corners, corner, x, y, i, j
-
-  //         context.strokeStyle = "blue"
-  //         context.lineWidth = 1
-
-  //         for (i = 0; i < markers.length; ++i) {
-  //             corners = markers[i].corners
-
-  //             x = Infinity
-  //             y = Infinity
-
-  //             for (j = 0; j < corners.length; ++j) {
-  //                 corner = corners[j]
-
-  //                 x = Math.min(x, corner.x)
-  //             }
-
-  //             context.strokeText(markers[i].id, x, y)
-  //         }
-  //     }
-
-  //     function draw2DImg(markers) {
-  //         for (var i = 0; i < markers.length; i++) {
-  //             var marker = markers[i]
-
-  //             var p1 = marker.corners[0]
-
-  //             context.save()
-  //             context.drawImage(img, p1.x, p1.y)
-  //             context.restore()
-  //         }
-  //     }
-
-  //     window.onload = ()=>{
-  //       setTimeout(()=>{
-  //         onLoad()
-  //       },233)
-        
-  //     }
-
-  //   }catch(e){
-  //     alert(e)
-  //   }
+  
 
     try{
       var stage = new cax.Stage(innerWidth,innerHeight,'body')
@@ -1262,100 +1068,52 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
         constructor(corners){
           super()
           
-          this.scan_line
-
           this.corners = corners
 
-          this.clipPath = new cax.Graphics()
-
           this.scan_bord = new cax.Graphics()
-
           this.add(this.scan_bord)
-
-          //this.add(this.clipPath)
-
           this.scan_bord.shadow = {
             color: '#3beef7',
             offsetX: 0,
             offsetY: 0,
             blur: 10
           }
-          
-          
-          this.minX = Math.min.apply(Math, this.corners.map(o=>o.x) )
-          this.maxX = Math.max.apply(Math, this.corners.map(o=>o.x) )
-          this.minY = Math.min.apply(Math, this.corners.map(o=>o.y) )
-          this.maxY = Math.max.apply(Math, this.corners.map(o=>o.y) )
-
-          //this.clipPath.beginPath()
-
           this.scan_bord.beginPath()
           this.scan_bord.strokeStyle('white')
+          this.scan_bord.fillStyle('rgba(0,255,255,.6)')
           this.scan_bord.lineWidth(2)
+          
+          // console.log(this.corners)
+          // {143,76},{297,77},{298,194},{143,194}
+          this.scan_bord.moveTo(this.corners[0].x, this.corners[0].y)
 
-          for (let j = 0; j < this.corners.length; ++j) {
+          for (let j = 1; j < this.corners.length; ++j) {
             let corner = this.corners[j]
             //this.clipPath.moveTo(corner.x, corner.y)
-            this.scan_bord.moveTo(corner.x, corner.y)
+            
             //下个角
-            corner = corners[(j + 1) % corners.length]
-
+ 
             this.scan_bord.lineTo(corner.x, corner.y)
-            //this.clipPath.lineTo(corner.x, corner.y)
 
           }
           this.scan_bord.closePath() 
           this.scan_bord.stroke()
+          this.scan_bord.fill()
           
-          //this.clipPath.closePath()
-         
 
-          this.scanLineMove()
-     
-        }
-        scanLineMove(){
+          this.scan_bord.alpha = 0
+          
           var that = this
-            
-         
-          new TWEEN.Tween({y:0})
-          .to({y:this.maxY-this.minY},888)
+          new TWEEN.Tween({t:0})
+          .easing(TWEEN.Easing.Linear.None)
+          .to({t:1},2333)
           .onUpdate(function(){
-            
-            if(that.scan_line) that.remove(that.scan_line)
-            
-            that.scan_line = new cax.Graphics()
-            that.scan_line
-            //.clear()
-            .strokeStyle('white')
-            .lineWidth(2)
-            .beginPath()
-            .moveTo(that.minX, that.minY+ this.y)
-            .lineTo(that.maxX, that.minY+this.y)
-            .closePath()
-            .stroke()
-            
-            // console.log(that.minX, that.minY+ this.y,that.maxX, that.minY+this.y)
-            that.scan_line.shadow = {
-              color: '#3beef7',
-              offsetX: 0,
-              offsetY: 0,
-              blur: 10
-            }
-
-            // 被添加clipPath的对象x,y在绘制中设置
-            //that.scan_line.clip(that.clipPath)
-            that.add(that.scan_line)
-
-          
+            that.scan_bord.alpha = this.t
           })
-          .repeat(Infinity)
-          .yoyo(true)
           .start()
-         
-        }
-        update(){
 
         }
+
       }
       
       var drawCorners = (markers)=> {
@@ -1407,7 +1165,43 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
       })
 
 
-      
+      // {
+      //   let scan_bord = new cax.Graphics()
+      //   stage.add(scan_bord)
+      //   scan_bord.shadow = {
+      //     color: '#3beef7',
+      //     offsetX: 0,
+      //     offsetY: 0,
+      //     blur: 10
+      //   }
+
+      //   scan_bord.fillStyle('rgba(0,255,255,.6)')
+      //   scan_bord.strokeStyle('rgba(255,255,255,.9)')
+      //   scan_bord.beginPath()
+        
+      //   let corners = [[143,76],[297,77],[298,194],[143,194]].map(o=>{
+      //     return {x:o[0],y:o[1]}
+      //   })
+      //   scan_bord.moveTo(corners[0].x, corners[0].y)
+      //   corners.forEach((corner,j)=>{
+      //     if(j==0) return
+      //     //this.clipPath.moveTo(corner.x, corner.y)
+      //     scan_bord.lineTo(corner.x, corner.y)
+      //   })
+      //   scan_bord.closePath()
+      //   scan_bord.stroke()
+      //   scan_bord.fill()
+        
+      //   //debugger
+      //   // new TWEEN.Tween({t:0})
+      //   // .easing(TWEEN.Easing.Linear.None)
+      //   // .to({t:1},333)
+      //   // .onUpdate(function(){
+      //   //   scan_bord.alpha = this.t
+      //   // })
+      //   // .repeat(2)
+      //   // .start()
+      // }
 
       cax.tick(()=>{
         stage.update()
