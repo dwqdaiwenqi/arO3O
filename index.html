@@ -1045,7 +1045,7 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
       },
       entry:"body"          //请点击这个DOM元素6次召唤vConsole。//你可以通过AlloyLever.entry('#entry2')设置多个机关入口召唤神龙
     })
-    alert(1666)
+    alert(23455555)
   </script>
   <script src="//static.xyimg.net/gamesite/mu/mufed/common/js/cax.min.js"></script>
   <img id="pic1" style="display: none;" crossorigin src="//static.xyimg.net/gamesite/mu/mufed/blackhole.png" alt="">
@@ -1069,6 +1069,7 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
         super()
         
         // this.add(new cax.Rect(100,100,{fillStyle:'fuchsia'}))
+        // var str = 'ABCDEF'
         var str = '国庆节快乐鸭'
 
         str.split('').forEach(s=>{
@@ -1089,18 +1090,26 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
           text.r = text.getWidth()
           
           text.scale = 0
+
+          text.xx = 50+Math.random()*(stage.width-50)
+          text.yy = 50+Math.random()*(stage.height-50)
         })
         
-        this.children.forEach(o=>{
-          var range = {x:stage.width,y:stage.height}
-          var count = 0
+
+        var f = (o,range,count)=>{
+         
           if(!this.getNoOverlapPo(o,range)){
-            if(++count>50000){
+            
+            if(++count>20000){
               return console.warn('。。。')
             }
-            this.getNoOverlapPo(o,range)
+          
+            f(o,range,count)
           }
+        }
 
+        this.children.forEach(o=>{
+          f(o,{x:stage.width,y:stage.height},0)
         })
         
         // this.run()
@@ -1108,19 +1117,24 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
       }
       getNoOverlapPo(o,range={x:0,y:0}){
         var k= true
-        o.xx = range.x*Math.random()
-        o.yy = range.y*Math.random()
-        this.children.forEach(o2=>{
-          if(o === o2) return
-
-          var dx = o.xx - o2.xx
-            ,dy = o.yy - o2.yy
-            ,d = Math.sqrt(dx*dx+dy*dy);
+        o.xx = 50+(range.x-50)*Math.random()
+        o.yy = 50+(range.y-50)*Math.random()
           
-          if((o.r+o2.r)*1 < d){
+        //与每个做检测
+        for(let i = 0,len = this.children.length;i<len;i++){
+          let o2 = this.children[i]
+          if(o === o2) continue
+
+          let dx = o2.xx - o.xx
+            ,dy = o2.yy - o.yy
+            ,d = Math.sqrt(dx*dx+dy*dy);
+
+          if(d < (o.r+o2.r)*1){
             k = false
+        
           }
-        })
+        }
+        
         return k
       }
       setChildPo(x,y){
