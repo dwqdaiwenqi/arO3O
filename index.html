@@ -1045,7 +1045,7 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
       },
       entry:"body"          //请点击这个DOM元素6次召唤vConsole。//你可以通过AlloyLever.entry('#entry2')设置多个机关入口召唤神龙
     })
-    alert(8)
+    alert(433)
   </script>
   <script src="//static.xyimg.net/gamesite/mu/mufed/common/js/cax.min.js"></script>
   <img id="pic1" style="display: none;" crossorigin src="//static.xyimg.net/gamesite/mu/mufed/blackhole.png" alt="">
@@ -1089,7 +1089,7 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
         this.hole.originY = 400
         this.add(this.hole)
         
-        this.default_scale = .3
+        this.default_scale = .25
         
         this.scale = this.default_scale
         
@@ -1105,7 +1105,7 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
         var that = this
         new TWEEN.Tween({scale:0})
         .easing(TWEEN.Easing.Quartic.InOut)
-        .to({scale:this.default_scale+.3},2333)
+        .to({scale:this.default_scale+.2},2333)
         .onUpdate(function(){
           that.scale = this.scale
         })
@@ -1187,8 +1187,9 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
         .onUpdate(function(){
           that.scan_bord.alpha = this.t
         })
+        .repeat(2)
         .onComplete(()=>{
-
+  
         })
         .start()
       }
@@ -1288,13 +1289,18 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
     //   // .start()
     // }
 
-    var bh = new BlackHole()
-    hole_group.add(bh)
+    // var bh = new BlackHole()
+    // hole_group.add(bh)
       
-    bh.x = stage.width*.5
-    bh.y = stage.height*.5
+    // bh.x = stage.width*.5
+    // bh.y = stage.height*.5
 
-    bh.run()
+    // bh.run()
+
+
+    /////////////
+   
+    ////////////
     
       
     var scan_line_y = -60
@@ -1312,7 +1318,6 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
     cax.tick(()=>{
       stage.update()
       TWEEN.update()
-      //MoonGame.update()
       
       if(once) return
 
