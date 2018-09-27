@@ -1045,7 +1045,7 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
       },
       entry:"body"          //请点击这个DOM元素6次召唤vConsole。//你可以通过AlloyLever.entry('#entry2')设置多个机关入口召唤神龙
     })
-    alert(2111)
+    alert(2333)
   </script>
   <script src="//static.xyimg.net/gamesite/mu/mufed/common/js/cax.min.js"></script>
   <img id="pic1" style="display: none;" crossorigin src="//static.xyimg.net/gamesite/mu/mufed/blackhole.png" alt="">
@@ -1132,7 +1132,7 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
       run(){
         this.children.forEach((text,i)=>{
 
-          var difx = 20-random()*40
+          var difx = 15-Math.random()*30
           new TWEEN.Tween({scale:0,x:text.x,y:text.y})
           .to({scale:1,x:text.xx,y:text.yy},1666)
           .easing(TWEEN.Easing.Quartic.Out)
