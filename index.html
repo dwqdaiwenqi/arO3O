@@ -1045,10 +1045,11 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
       },
       entry:"body"          //请点击这个DOM元素6次召唤vConsole。//你可以通过AlloyLever.entry('#entry2')设置多个机关入口召唤神龙
     })
-    alert(23455555)
+    alert(43211)
   </script>
   <script src="//static.xyimg.net/gamesite/mu/mufed/common/js/cax.min.js"></script>
   <img id="pic1" style="display: none;" crossorigin src="//static.xyimg.net/gamesite/mu/mufed/blackhole.png" alt="">
+  <img id="pic2" style="display: none;" crossorigin src="//static.xyimg.net/gamesite/mu/mufed/date_pic.jpg" alt="">
   <script>
   
     
@@ -1071,6 +1072,7 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
         // this.add(new cax.Rect(100,100,{fillStyle:'fuchsia'}))
         // var str = 'ABCDEF'
         var str = '国庆节快乐鸭'
+        // var str = '国庆'
 
         str.split('').forEach(s=>{
           var text = new cax.Text(s, {
@@ -1093,6 +1095,8 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
 
           text.xx = 50+Math.random()*(stage.width-50)
           text.yy = 50+Math.random()*(stage.height-50)
+
+          text.befx = text.befy = 0
         })
         
 
@@ -1112,7 +1116,7 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
           f(o,{x:stage.width,y:stage.height},0)
         })
         
-        // this.run()
+        // this.outHole()
 
       }
       getNoOverlapPo(o,range={x:0,y:0}){
@@ -1141,9 +1145,35 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
         this.children.forEach((o)=>{
           o.x = x
           o.y = y
+          o.befx = x
+          o.befy = y
         })
       }
-      run(){
+      backHole(){
+         this.children.forEach((text,i)=>{
+          
+          //console.log({scale:1,x:text.x,y:text.y},{scale:0,x:text.befx,y:text.befy});
+          var difx = 15-Math.random()*30
+          new TWEEN.Tween({scale:1,x:text.x,y:text.y})
+          .to({scale:0,x:text.befx,y:text.befy},1666)
+          .easing(TWEEN.Easing.Quartic.Out)
+          .delay(i*233)
+          .onUpdate(function(){
+            text.scale = this.scale
+            text.x = this.x+ Math.sin(this.scale*Math.PI)*difx
+            text.y = this.y
+
+            //console.log(text.x,text.y);
+            //debugger 
+          })
+          .onComplete(function(){
+            
+          })
+          .start()
+
+        })
+      }
+      outHole(){
         this.children.forEach((text,i)=>{
 
           var difx = 15-Math.random()*30
@@ -1177,6 +1207,52 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
 
     var blessing = new Blessing()
     stage.add(blessing)
+    
+    var date_pic = new cax.Bitmap(pic2)
+    stage.add(date_pic)
+
+    //debugger
+    // 573 423
+    date_pic.originX = 573*.5
+    date_pic.originY = 423*.5
+    date_pic.default_scale = .56
+    date_pic.scale = date_pic.default_scale
+    date_pic.scale = 0
+    date_pic.rotation = -260
+
+    date_pic.outHole = function(fin={x:0,y:0}){
+      var that = this
+      var difx = 15-Math.random()*30
+      // console.log(
+      //   {scale:0,x:this.x,y:this.y,rotation:this.rotation}
+      //   ,{scale:date_pic.default_scale,x:fin.x,y:fin.y,rotation:0}
+      // );
+      new TWEEN.Tween({scale:0,x:this.x,y:this.y,rotation:this.rotation})
+      .to({scale:date_pic.default_scale,x:fin.x,y:fin.y,rotation:0},888)
+      .easing(TWEEN.Easing.Quartic.Out)
+      .onUpdate(function(){
+        that.scale = this.scale
+        that.x = this.x + Math.sin(this.scale*Math.PI)*difx
+        that.y = this.y
+        that.rotation = this.rotation
+        // console.log(this.x,this.y,this.scale);
+        //debugger 
+      })
+      .onComplete(function(){
+        
+      })
+      .start()
+    }
+
+   // date_pic.outHole({x:stage.width*.5,y:stage.height*.5})
+
+    // date_pic.x = stage.width*.5
+    // date_pic.y  =stage.height*.5
+    // blessing.outHole()
+
+    // setTimeout(()=>{
+    //   blessing.backHole()
+    // },6666)
     
 
     // var scan_line_group = new cax.Group()
@@ -1353,7 +1429,30 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
 
             //alert('expansion')
             blessing.setChildPo(hole.x,hole.y)
-            blessing.run()
+            date_pic.x = hole.x
+            date_pic.y = hole.y
+            
+            new Promise(r=>{
+              blessing.outHole()
+              setTimeout(()=>{
+                blessing.backHole()
+                r()
+              },6666)
+            })
+            .then(res=>{
+              //alert('res2')
+              return new Promise(r=>{
+                setTimeout(()=>{
+                  r()
+                },2333)
+              })
+            })
+            .then(res=>{
+              //alert('res3')
+              date_pic.outHole({x:stage.width*.5,y:stage.height*.5})
+            })
+            
+
           })
         })
 
@@ -1362,7 +1461,7 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
       //}
     }
 
-
+    
     navigator.mediaDevices.enumerateDevices().then(mediaDevices=>{
       var devices = []
 
@@ -1397,51 +1496,6 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
     })
 
 
-    // {
-    //   let scan_bord = new cax.Graphics()
-    //   stage.add(scan_bord)
-    //   scan_bord.shadow = {
-    //     color: '#3beef7',
-    //     offsetX: 0,
-    //     offsetY: 0,
-    //     blur: 10
-    //   }
-
-    //   scan_bord.fillStyle('rgba(0,255,255,.6)')
-    //   scan_bord.strokeStyle('rgba(255,255,255,.9)')
-    //   scan_bord.beginPath()
-      
-    //   let corners = [[143,76],[297,77],[298,194],[143,194]].map(o=>{
-    //     return {x:o[0],y:o[1]}
-    //   })
-    //   scan_bord.moveTo(corners[0].x, corners[0].y)
-    //   corners.forEach((corner,j)=>{
-    //     if(j==0) return
-    //     //this.clipPath.moveTo(corner.x, corner.y)
-    //     scan_bord.lineTo(corner.x, corner.y)
-    //   })
-    //   scan_bord.closePath()
-    //   scan_bord.stroke()
-    //   scan_bord.fill()
-      
-    //   //debugger
-    //   // new TWEEN.Tween({t:0})
-    //   // .easing(TWEEN.Easing.Linear.None)
-    //   // .to({t:1},333)
-    //   // .onUpdate(function(){
-    //   //   scan_bord.alpha = this.t
-    //   // })
-    //   // .repeat(2)
-    //   // .start()
-    // }
-
-    // var bh = new BlackHole()
-    // hole_group.add(bh)
-      
-    // bh.x = stage.width*.5
-    // bh.y = stage.height*.5
-
-    // bh.run()
 
 
     /////////////
