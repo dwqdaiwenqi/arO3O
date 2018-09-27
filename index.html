@@ -1045,7 +1045,7 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
       },
       entry:"body"          //请点击这个DOM元素6次召唤vConsole。//你可以通过AlloyLever.entry('#entry2')设置多个机关入口召唤神龙
     })
-    alert(433)
+    alert(2111)
   </script>
   <script src="//static.xyimg.net/gamesite/mu/mufed/common/js/cax.min.js"></script>
   <img id="pic1" style="display: none;" crossorigin src="//static.xyimg.net/gamesite/mu/mufed/blackhole.png" alt="">
@@ -1063,12 +1063,108 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
     var once = false
 
     var markers = []
+
+    class Blessing extends cax.Group {
+      constructor(){
+        super()
+        
+        // this.add(new cax.Rect(100,100,{fillStyle:'fuchsia'}))
+        var str = '国庆节快乐鸭'
+
+        str.split('').forEach(s=>{
+          var text = new cax.Text(s, {
+            font: '54px Arial',
+            color: 'white',
+            baseline: 'middle',
+            textAlign: 'center'
+          })  
+          this.add(text)
+
+          text.shadow = {
+            color: '#3beef7',
+            offsetX: 0,
+            offsetY: 0,
+            blur: 10
+          }
+          text.r = text.getWidth()
+          
+          text.scale = 0
+        })
+        
+        this.children.forEach(o=>{
+          var range = {x:stage.width,y:stage.height}
+          var count = 0
+          if(!this.getNoOverlapPo(o,range)){
+            if(++count>50000){
+              return console.warn('。。。')
+            }
+            this.getNoOverlapPo(o,range)
+          }
+
+        })
+        
+        // this.run()
+
+      }
+      getNoOverlapPo(o,range={x:0,y:0}){
+        var k= true
+        o.xx = range.x*Math.random()
+        o.yy = range.y*Math.random()
+        this.children.forEach(o2=>{
+          if(o === o2) return
+
+          var dx = o.xx - o2.xx
+            ,dy = o.yy - o2.yy
+            ,d = Math.sqrt(dx*dx+dy*dy);
+          
+          if((o.r+o2.r)*1 < d){
+            k = false
+          }
+        })
+        return k
+      }
+      setChildPo(x,y){
+        this.children.forEach((o)=>{
+          o.x = x
+          o.y = y
+        })
+      }
+      run(){
+        this.children.forEach((text,i)=>{
+
+          var difx = 20-random()*40
+          new TWEEN.Tween({scale:0,x:text.x,y:text.y})
+          .to({scale:1,x:text.xx,y:text.yy},1666)
+          .easing(TWEEN.Easing.Quartic.Out)
+          .delay(i*566)
+          .onUpdate(function(){
+            text.scale = this.scale
+            text.x = this.x + Math.sin(this.scale*Math.PI)*difx
+            text.y = this.y
+            //debugger 
+          })
+          .onComplete(function(){
+            
+          })
+          .start()
+
+        })
+      }
+      update(){
+
+      }
+    }
     
     var scan_group = new cax.Group()
     stage.add(scan_group)
 
     var hole_group = new cax.Group()
     stage.add(hole_group)
+
+    var blessing = new Blessing()
+    stage.add(blessing)
+    
+
     // var scan_line_group = new cax.Group()
     // stage.add(scan_line_group)
 
@@ -1109,6 +1205,9 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
         .onUpdate(function(){
           that.scale = this.scale
         })
+        .onComplete(()=>{
+          this.handle_expansion && this.handle_expansion()
+        })
         .start()
 
         new TWEEN.Tween({rot:0})
@@ -1119,6 +1218,9 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
         })
         .repeat(Infinity)
         .start()
+      }
+      onExpansion(fn){
+        this.handle_expansion = fn
       }
       update(){
 
@@ -1174,9 +1276,6 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
 
 
         this.fadeScanBord()
-        
-        
-        
 
       }
       fadeScanBord(){
@@ -1196,6 +1295,9 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
 
     }
     
+
+   
+
     var drawCorners = (markers)=> {
       var corners, corner, i, j
 
@@ -1210,9 +1312,15 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
         hole_group.add(hole)
         hole.x = scan.cx
         hole.y = scan.cy
-        console.log(hole,scan.cx,scan.cy);
+       // console.log(hole,scan.cx,scan.cy);
         hole.run()
 
+        hole.onExpansion(()=>{
+          //alert('expansion')
+          blessing.setChildPo(hole.x,hole.y)
+          blessing.run()
+        })
+        
       }
     }
 
@@ -1305,7 +1413,7 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
       
     var scan_line_y = -60
     
-    new TWEEN.Tween({y:-60})
+    var scan_line_tw = new TWEEN.Tween({y:-60})
     .to({y:stage.height+60},2888)
     .easing(TWEEN.Easing.Linear.None)
     .onUpdate(function(){
@@ -1313,7 +1421,8 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
     })
     .repeat(Infinity)
     .start()
-
+    
+    // debugger
 
     cax.tick(()=>{
       stage.update()
@@ -1339,13 +1448,15 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
         markers = detector.detect(imageData)
         if(markers.length > 0) {
           start_game = true
+
+          scan_line_tw.stop()
         }
       }
       
       
       {
         c.save()
-        c.globalAlpha = .5
+        c.globalAlpha = .88
         c.translate(0,scan_line_y)
         c.lineWidth = 2
         
