@@ -960,7 +960,6 @@ AR.Detector.prototype.hammingDistance = function(bits){
     
     for (j = 0; j < 4; ++ j){
       sum = 0;
-
       for (k = 0; k < 5; ++ k){
           sum += bits[i][k] === ids[j][k]? 0: 1;
       }
@@ -1024,7 +1023,7 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
     canvas{box-sizing:border-box;border:2px solid fuchsia;position: absolute;left:0;top:0px;margin-top:0px;}
     h2,h3{color:white;position:fixed:left:0;top:0;z-index:3;margin:3px 0 0 10px;}
   </style>
-    <div style="display:none;">23333</div>
+    <div style="display:none;">123</div>
     <h3 id="h3"></h3>
     
     <video id="video" loop autoplay></video>
@@ -1046,321 +1045,324 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
       },
       entry:"body"          //请点击这个DOM元素6次召唤vConsole。//你可以通过AlloyLever.entry('#entry2')设置多个机关入口召唤神龙
     })
-
+    alert(8)
   </script>
   <script src="//static.xyimg.net/gamesite/mu/mufed/common/js/cax.min.js"></script>
+  <img id="pic1" style="display: none;" crossorigin src="//static.xyimg.net/gamesite/mu/mufed/blackhole.png" alt="">
   <script>
   
-
-    try{
-      var stage = new cax.Stage(innerWidth,innerHeight,'body')
     
-      var c = stage.canvas.getContext('2d')
+  onload = ()=>{
+    var stage = new cax.Stage(innerWidth,innerHeight,'body')
+    
+    var c = stage.canvas.getContext('2d')
 
-      var detector
+    var detector
 
-      var start_game = false
-      var once = false
+    var start_game = false
+    var once = false
 
-      var markers = []
-      
-      var scan_group = new cax.Group()
-      stage.add(scan_group)
+    var markers = []
+    
+    var scan_group = new cax.Group()
+    stage.add(scan_group)
 
-      var hole_group = new cax.Group()
-      stage.add(hole_group)
-      // var scan_line_group = new cax.Group()
-      // stage.add(scan_line_group)
+    var hole_group = new cax.Group()
+    stage.add(hole_group)
+    // var scan_line_group = new cax.Group()
+    // stage.add(scan_line_group)
 
 
-      // var sline = new ScanLine()
-      // scan_line_group.add(sline)
-      
+    // var sline = new ScanLine()
+    // scan_line_group.add(sline)
+    
+    // pic1
+    // debugger
 
-      class BlackHole extends cax.Group {
-        constructor(){
-          super()
+    class BlackHole extends cax.Group {
+      constructor(){
+        super()
+        
+        this.hole = new cax.Bitmap(pic1)
+        // 800 800 
+        this.hole.originX = 400
+        this.hole.originY = 400
+        this.add(this.hole)
+        
+        this.default_scale = .3
+        
+        this.scale = this.default_scale
+        
 
-          this.hole = new cax.Bitmap('./blackhole.png')
-          // 800 800 
-          this.hole.originX = 400
-          this.hole.originY = 400
-          this.add(this.hole)
-          
-          this.default_scale = .3
-          
-          this.scale = this.default_scale
-          
+        this.scale = 0
 
-          this.scale = 0
-
-          this.visible = false
-          
-        }
-        run(){
-          this.visible = true
-
-          var that = this
-          new TWEEN.Tween({scale:0})
-          .easing(TWEEN.Easing.Quartic.InOut)
-          .to({scale:this.default_scale+.3},2333)
-          .onUpdate(function(){
-            that.scale = this.scale
-          })
-          .start()
-
-          new TWEEN.Tween({rot:0})
-          .easing(TWEEN.Easing.Linear.None)
-          .to({rot:360},14333)
-          .onUpdate(function(){
-            that.rotation = this.rot
-          })
-          .repeat(Infinity)
-          .start()
-        }
-        update(){
-
-        }
+        this.visible = false
+        
       }
+      run(){
+        this.visible = true
 
-      class Scan extends cax.Group {
-        constructor(corners){
-          super()
-          
-          this.corners = corners
+        var that = this
+        new TWEEN.Tween({scale:0})
+        .easing(TWEEN.Easing.Quartic.InOut)
+        .to({scale:this.default_scale+.3},2333)
+        .onUpdate(function(){
+          that.scale = this.scale
+        })
+        .start()
 
-          this.scan_bord = new cax.Graphics()
-          this.add(this.scan_bord)
-          this.scan_bord.alpha = 0
-
-          this.scan_bord.shadow = {
-            color: '#3beef7',
-            offsetX: 0,
-            offsetY: 0,
-            blur: 10
-          }
-          this.scan_bord.beginPath()
-          this.scan_bord.strokeStyle('white')
-          this.scan_bord.fillStyle('rgba(0,255,255,.5)')
-          this.scan_bord.lineWidth(2)
-          
-          // console.log(this.corners)
-          // {143,76},{297,77},{298,194},{143,194}
-          this.scan_bord.moveTo(this.corners[0].x, this.corners[0].y)
-          
-          for (let j = 1; j < this.corners.length; ++j) {
-            let corner = this.corners[j]
-            //this.clipPath.moveTo(corner.x, corner.y)
-            
-            //下个角
- 
-            this.scan_bord.lineTo(corner.x, corner.y)
-
-          }
-          this.scan_bord.closePath() 
-          this.scan_bord.stroke()
-          this.scan_bord.fill()
-          
-          
-          this.minX = Math.min.apply(Math, this.corners.map(o=>o.x) )
-          this.maxX = Math.max.apply(Math, this.corners.map(o=>o.x) )
-          this.minY = Math.min.apply(Math, this.corners.map(o=>o.y) )
-          this.maxY = Math.max.apply(Math, this.corners.map(o=>o.y) )
-
-          this.cx = (this.minX+this.maxX)*.5
-          this.cy = (this.minY+this.maxY)*.5
-
-
-          this.fadeScanBord()
-          
-          
-          
-
-        }
-        fadeScanBord(){
-          var that = this
-          new TWEEN.Tween({t:0})
-          .easing(TWEEN.Easing.Linear.None)
-          .to({t:1},433)
-          .onUpdate(function(){
-            that.scan_bord.alpha = this.t
-          })
-          .onComplete(()=>{
-
-          })
-          .start()
-        }
+        new TWEEN.Tween({rot:0})
+        .easing(TWEEN.Easing.Linear.None)
+        .to({rot:360},14333)
+        .onUpdate(function(){
+          that.rotation = this.rot
+        })
+        .repeat(Infinity)
+        .start()
+      }
+      update(){
 
       }
-      
-      var drawCorners = (markers)=> {
-        var corners, corner, i, j
-
-        for (i = 0; i < markers.length; ++i) {
-          //某个标记的对象
-          corners = markers[i].corners
-          
-          let scan = new Scan(corners)
-          scan_group.add(scan)
-
-          let hole = new BlackHole()
-          hole_group.add(hole)
-          hole.x = scan.cx
-          hole.y = scan.cy
-          console.log(hole,scan.cx,scan.cy);
-          hole.run()
-
-        }
-      }
-
-
-      navigator.mediaDevices.enumerateDevices().then(mediaDevices=>{
-        var devices = []
-
-        mediaDevices.forEach(mediaDevice => {
-          if (mediaDevice.kind === 'videoinput') {  
-            //deviceId,label
-            devices.push(mediaDevice)
-          }
-        })
-        
-        console.log(`devices:${devices}`)
-        navigator.mediaDevices.getUserMedia({
-          video: {
-            deviceId:{exact: devices[devices.length-1].deviceId}
-          },
-          audio: false
-        })
-        .then(stream => {
-
-          video.src =  window.URL.createObjectURL(stream)
-
-          detector = new AR.Detector()
-
-        })
-        .catch(e => {
-          console.log(e)
-        });
-
-      })
-      .catch(e=>{
-        console.log(e)
-      })
-
-
-      // {
-      //   let scan_bord = new cax.Graphics()
-      //   stage.add(scan_bord)
-      //   scan_bord.shadow = {
-      //     color: '#3beef7',
-      //     offsetX: 0,
-      //     offsetY: 0,
-      //     blur: 10
-      //   }
-
-      //   scan_bord.fillStyle('rgba(0,255,255,.6)')
-      //   scan_bord.strokeStyle('rgba(255,255,255,.9)')
-      //   scan_bord.beginPath()
-        
-      //   let corners = [[143,76],[297,77],[298,194],[143,194]].map(o=>{
-      //     return {x:o[0],y:o[1]}
-      //   })
-      //   scan_bord.moveTo(corners[0].x, corners[0].y)
-      //   corners.forEach((corner,j)=>{
-      //     if(j==0) return
-      //     //this.clipPath.moveTo(corner.x, corner.y)
-      //     scan_bord.lineTo(corner.x, corner.y)
-      //   })
-      //   scan_bord.closePath()
-      //   scan_bord.stroke()
-      //   scan_bord.fill()
-        
-      //   //debugger
-      //   // new TWEEN.Tween({t:0})
-      //   // .easing(TWEEN.Easing.Linear.None)
-      //   // .to({t:1},333)
-      //   // .onUpdate(function(){
-      //   //   scan_bord.alpha = this.t
-      //   // })
-      //   // .repeat(2)
-      //   // .start()
-      // }
-
-      var bh = new BlackHole()
-      hole_group.add(bh)
-        
-      bh.x = stage.width*.5
-      bh.y = stage.height*.5
-
-      bh.run()
-      
-        
-      var scan_line_y = -60
-      
-      new TWEEN.Tween({y:-60})
-      .to({y:stage.height+60},2888)
-      .easing(TWEEN.Easing.Linear.None)
-      .onUpdate(function(){
-        scan_line_y = this.y
-      })
-      .repeat(Infinity)
-      .start()
-
-
-      cax.tick(()=>{
-        stage.update()
-        TWEEN.update()
-        //MoonGame.update()
-        
-        if(once) return
-
-        if(start_game ){
-          once = true
-          //start_game = false
-          // MoonGame.start()
-          drawCorners(markers)
-          return
-        }
-
-        if(video.HAVE_ENOUGH_DATA && detector){
-          c.drawImage(video, 0, 0, stage.width, stage.height)
-          let imageData = c.getImageData(0, 0, stage.width, stage.height)
-          // console.log(`imageData.width:${imageData.width}`);
-
-          c.clearRect(0,0, stage.width, stage.height)
-
-          markers = detector.detect(imageData)
-          if(markers.length > 0) {
-            start_game = true
-          }
-        }
-        
-        
-        {
-          c.save()
-          c.globalAlpha = .5
-          c.translate(0,scan_line_y)
-          c.lineWidth = 2
-          
-          c.shadowColor = '#3beef7'
-          c.shadowOffsetY = 0
-          c.shadowOffsetX = 0
-          c.shadowBlur = 10
-
-          c.strokeStyle = 'white'
-          c.beginPath()
-          c.moveTo(0,0)
-          c.lineTo(stage.width,0)
-          c.closePath()
-          c.stroke()
-          c.restore()
-        }
- 
-      })
-
-    }catch(e){
-      console.log(e)
     }
+
+    class Scan extends cax.Group {
+      constructor(corners){
+        super()
+        
+        this.corners = corners
+
+        this.scan_bord = new cax.Graphics()
+        this.add(this.scan_bord)
+        this.scan_bord.alpha = 0
+
+        this.scan_bord.shadow = {
+          color: '#3beef7',
+          offsetX: 0,
+          offsetY: 0,
+          blur: 10
+        }
+        this.scan_bord.beginPath()
+        this.scan_bord.strokeStyle('white')
+        this.scan_bord.fillStyle('rgba(0,255,255,.5)')
+        this.scan_bord.lineWidth(2)
+        
+        // console.log(this.corners)
+        // {143,76},{297,77},{298,194},{143,194}
+        this.scan_bord.moveTo(this.corners[0].x, this.corners[0].y)
+        
+        for (let j = 1; j < this.corners.length; ++j) {
+          let corner = this.corners[j]
+          //this.clipPath.moveTo(corner.x, corner.y)
+          
+          //下个角
+
+          this.scan_bord.lineTo(corner.x, corner.y)
+
+        }
+        this.scan_bord.closePath() 
+        this.scan_bord.stroke()
+        this.scan_bord.fill()
+        
+        
+        this.minX = Math.min.apply(Math, this.corners.map(o=>o.x) )
+        this.maxX = Math.max.apply(Math, this.corners.map(o=>o.x) )
+        this.minY = Math.min.apply(Math, this.corners.map(o=>o.y) )
+        this.maxY = Math.max.apply(Math, this.corners.map(o=>o.y) )
+
+        this.cx = (this.minX+this.maxX)*.5
+        this.cy = (this.minY+this.maxY)*.5
+
+
+        this.fadeScanBord()
+        
+        
+        
+
+      }
+      fadeScanBord(){
+        var that = this
+        new TWEEN.Tween({t:0})
+        .easing(TWEEN.Easing.Linear.None)
+        .to({t:1},433)
+        .onUpdate(function(){
+          that.scan_bord.alpha = this.t
+        })
+        .onComplete(()=>{
+
+        })
+        .start()
+      }
+
+    }
+    
+    var drawCorners = (markers)=> {
+      var corners, corner, i, j
+
+      for (i = 0; i < markers.length; ++i) {
+        //某个标记的对象
+        corners = markers[i].corners
+        
+        let scan = new Scan(corners)
+        scan_group.add(scan)
+
+        let hole = new BlackHole()
+        hole_group.add(hole)
+        hole.x = scan.cx
+        hole.y = scan.cy
+        console.log(hole,scan.cx,scan.cy);
+        hole.run()
+
+      }
+    }
+
+
+    navigator.mediaDevices.enumerateDevices().then(mediaDevices=>{
+      var devices = []
+
+      mediaDevices.forEach(mediaDevice => {
+        if (mediaDevice.kind === 'videoinput') {  
+          //deviceId,label
+          devices.push(mediaDevice)
+        }
+      })
+      
+      console.log(`devices:${devices}`)
+      navigator.mediaDevices.getUserMedia({
+        video: {
+          deviceId:{exact: devices[devices.length-1].deviceId}
+        },
+        audio: false
+      })
+      .then(stream => {
+
+        video.src =  window.URL.createObjectURL(stream)
+
+        detector = new AR.Detector()
+
+      })
+      .catch(e => {
+        console.log(e)
+      });
+
+    })
+    .catch(e=>{
+      console.log(e)
+    })
+
+
+    // {
+    //   let scan_bord = new cax.Graphics()
+    //   stage.add(scan_bord)
+    //   scan_bord.shadow = {
+    //     color: '#3beef7',
+    //     offsetX: 0,
+    //     offsetY: 0,
+    //     blur: 10
+    //   }
+
+    //   scan_bord.fillStyle('rgba(0,255,255,.6)')
+    //   scan_bord.strokeStyle('rgba(255,255,255,.9)')
+    //   scan_bord.beginPath()
+      
+    //   let corners = [[143,76],[297,77],[298,194],[143,194]].map(o=>{
+    //     return {x:o[0],y:o[1]}
+    //   })
+    //   scan_bord.moveTo(corners[0].x, corners[0].y)
+    //   corners.forEach((corner,j)=>{
+    //     if(j==0) return
+    //     //this.clipPath.moveTo(corner.x, corner.y)
+    //     scan_bord.lineTo(corner.x, corner.y)
+    //   })
+    //   scan_bord.closePath()
+    //   scan_bord.stroke()
+    //   scan_bord.fill()
+      
+    //   //debugger
+    //   // new TWEEN.Tween({t:0})
+    //   // .easing(TWEEN.Easing.Linear.None)
+    //   // .to({t:1},333)
+    //   // .onUpdate(function(){
+    //   //   scan_bord.alpha = this.t
+    //   // })
+    //   // .repeat(2)
+    //   // .start()
+    // }
+
+    var bh = new BlackHole()
+    hole_group.add(bh)
+      
+    bh.x = stage.width*.5
+    bh.y = stage.height*.5
+
+    bh.run()
+    
+      
+    var scan_line_y = -60
+    
+    new TWEEN.Tween({y:-60})
+    .to({y:stage.height+60},2888)
+    .easing(TWEEN.Easing.Linear.None)
+    .onUpdate(function(){
+      scan_line_y = this.y
+    })
+    .repeat(Infinity)
+    .start()
+
+
+    cax.tick(()=>{
+      stage.update()
+      TWEEN.update()
+      //MoonGame.update()
+      
+      if(once) return
+
+      if(start_game ){
+        once = true
+        //start_game = false
+        // MoonGame.start()
+        drawCorners(markers)
+        return
+      }
+
+      if(video.HAVE_ENOUGH_DATA && detector){
+        c.drawImage(video, 0, 0, stage.width, stage.height)
+        let imageData = c.getImageData(0, 0, stage.width, stage.height)
+        // console.log(`imageData.width:${imageData.width}`);
+
+        c.clearRect(0,0, stage.width, stage.height)
+
+        markers = detector.detect(imageData)
+        if(markers.length > 0) {
+          start_game = true
+        }
+      }
+      
+      
+      {
+        c.save()
+        c.globalAlpha = .5
+        c.translate(0,scan_line_y)
+        c.lineWidth = 2
+        
+        c.shadowColor = '#3beef7'
+        c.shadowOffsetY = 0
+        c.shadowOffsetX = 0
+        c.shadowBlur = 10
+
+        c.strokeStyle = 'white'
+        c.beginPath()
+        c.moveTo(0,0)
+        c.lineTo(stage.width,0)
+        c.closePath()
+        c.stroke()
+        c.restore()
+      }
+      
+    })
+  }
+    
+      
+
 
   </script>
 </body>
