@@ -1045,7 +1045,7 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
       },
       entry:"body"          //请点击这个DOM元素6次召唤vConsole。//你可以通过AlloyLever.entry('#entry2')设置多个机关入口召唤神龙
     })
-    alert(2333)
+    alert(1666)
   </script>
   <script src="//static.xyimg.net/gamesite/mu/mufed/common/js/cax.min.js"></script>
   <img id="pic1" style="display: none;" crossorigin src="//static.xyimg.net/gamesite/mu/mufed/blackhole.png" alt="">
@@ -1278,15 +1278,34 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
         this.fadeScanBord()
 
       }
+      fadeOut(){
+        var that = this
+        new TWEEN.Tween({t:1})
+        .easing(TWEEN.Easing.Linear.None)
+        .to({t:0},433)
+        .onUpdate(function(){
+          that.scan_bord.alpha = this.t
+        })
+        .onComplete(()=>{})
+        .start()
+      }
+      inThatTime(fn){
+        this.handle_time = fn
+      }
       fadeScanBord(){
         var that = this
         new TWEEN.Tween({t:0})
         .easing(TWEEN.Easing.Linear.None)
         .to({t:1},433)
+        .onStart(()=>{
+          setTimeout(()=>{
+            this.handle_time&&this.handle_time()
+          },433)
+        })
         .onUpdate(function(){
           that.scan_bord.alpha = this.t
         })
-        .repeat(2)
+        .repeat(3)
         .onComplete(()=>{
   
         })
@@ -1301,27 +1320,32 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
     var drawCorners = (markers)=> {
       var corners, corner, i, j
 
-      for (i = 0; i < markers.length; ++i) {
+      //for (i = 0; i < markers.length; ++i) {
         //某个标记的对象
-        corners = markers[i].corners
+        corners = markers[0].corners
         
         let scan = new Scan(corners)
         scan_group.add(scan)
+        scan.inThatTime(()=>{
+          let hole = new BlackHole()
+          hole_group.add(hole)
+          hole.x = scan.cx
+          hole.y = scan.cy
+        // console.log(hole,scan.cx,scan.cy);
+          hole.run()
 
-        let hole = new BlackHole()
-        hole_group.add(hole)
-        hole.x = scan.cx
-        hole.y = scan.cy
-       // console.log(hole,scan.cx,scan.cy);
-        hole.run()
+          hole.onExpansion(()=>{
+            scan.fadeOut()
 
-        hole.onExpansion(()=>{
-          //alert('expansion')
-          blessing.setChildPo(hole.x,hole.y)
-          blessing.run()
+            //alert('expansion')
+            blessing.setChildPo(hole.x,hole.y)
+            blessing.run()
+          })
         })
+
+       
         
-      }
+      //}
     }
 
 
@@ -1456,7 +1480,7 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
       
       {
         c.save()
-        c.globalAlpha = .88
+        c.globalAlpha = 1
         c.translate(0,scan_line_y)
         c.lineWidth = 2
         
