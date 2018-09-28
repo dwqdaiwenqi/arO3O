@@ -1045,7 +1045,7 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
       },
       entry:"body"         
     })
-    alert(5555)
+    alert(5566)
   </script>
   <script src="//static.xyimg.net/gamesite/mu/mufed/common/js/cax.min.js"></script>
   <img id="pic1" style="display: none;" crossorigin src="//static.xyimg.net/gamesite/mu/mufed/blackhole.png" alt="">
@@ -1240,11 +1240,14 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
         that.y = this.y
         that.rotation = this.rotation
       })
-      .onComplete(function(){
-        
+      .onComplete(()=>{
+        this.handle_complete && this.handle_complete()
       })
       .start()
 
+    }
+    date_pic.onComplete=function(fn){
+      this.handle_complete = fn
     }
 
 
@@ -1257,12 +1260,23 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
     Object.assign(O3O,{
       originX: 600*.5
       ,originY: 498*.5
-      ,scale: .25
+      ,scale: .2
       ,x: stage.width*.5
       ,y: stage.height - 493*.25*.6
       ,visible: false
+      ,alpha:0
+      ,fadeIn(delay=0){
+        var that = this
+        this.visible = true
+        new TWEEN.Tween({alpha:0})
+        .to({alpha:1},566)
+        .delay(delay)
+        .onUpdate(function(){
+          that.alpha = this.alpha
+        })
+        .start()
+      }
     })
-
 
     var blessing_text = new cax.Text('国庆节快乐O3O', {
       font: '35px Arial',
@@ -1281,6 +1295,19 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
       x:stage.width*.5
       ,y:60
       ,visible:false
+      ,alpha:0
+      ,fadeIn(delay=0){
+        var that = this
+        this.visible = true
+        new TWEEN.Tween({alpha:0})
+        .to({alpha:1},566)
+        .delay(delay)
+        .onUpdate(function(){
+          that.alpha = this.alpha
+        })
+        .start()
+
+      }
     })
 
 
@@ -1312,12 +1339,12 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
             
             date_pic.outHole({x:stage.width*.5,y:stage.height*.5})
 
-            setTimeout(()=>{
+            date_pic.onComplete(()=>{
               Object.assign(O3O,{
                 visible:true
                 ,y: date_pic.y + date_pic.originY*date_pic.scale + O3O.originY*O3O.scale*1.43
               })
-              
+              O3O.fadeIn(300)
 
               Object.assign(blessing_text,{
                 visible:true
@@ -1325,10 +1352,10 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
               })
 
               console.log(blessing_text.y,O3O.y);
-           
-            },1888)
-       
-            
+              
+              blessing_text.fadeIn(600)
+            })
+
 
           })
         })
