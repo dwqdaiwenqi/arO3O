@@ -6,7 +6,7 @@
 
 想体验它，分两步：
 
-先扫描下面的二维码，进入页面
+先扫描下面的二维码，进入页面（用安卓机）
 
 <img src="https://raw.githubusercontent.com/dwqdaiwenqi/arO3O/master/qrx.jpg" style="width:50%;"/>
 
