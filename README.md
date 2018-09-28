@@ -8,11 +8,11 @@
 
 先扫描下面的二维码，进入页面
 
-<img src="https://raw.githubusercontent.com/dwqdaiwenqi/arO3O/master/qr.jpg" style="width:50%;"/>
+<img src="https://raw.githubusercontent.com/dwqdaiwenqi/arO3O/master/qrx.jpg" style="width:50%;"/>
 
 接着，再用手机扫描这张Marker ↓
 
-<img src="https://raw.githubusercontent.com/dwqdaiwenqi/arO3O/master/marker1.png" style="width:50%;"/>
+<img src="https://raw.githubusercontent.com/dwqdaiwenqi/arO3O/master/markerx1.png" style="width:50%;"/>
 
 这是对AR技术的尝鲜，犹豫各方面的原因，很遗憾的砍掉了些预实现的功能。不过总体满意，因为已经脱离了APP，在网页上实现了AR交互！
 
