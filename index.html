@@ -1017,10 +1017,10 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
 <body>
   <style>
     *{margin:0;padding:0}
-    html,body{width:100%;height:100%;background:black;}
+    html,body{width:100%;height:100%;background:black;box-sizing: border-box;}
     p{border:1px solid teal;padding:5px;}
-    video{box-sizing:border-box;border:6px solid gray;display:block;position: absolute;left:0;top:0;width:100%;height:100%;}
-    canvas{box-sizing:border-box;border:2px solid fuchsia;position: absolute;left:0;top:0px;margin-top:0px;}
+    video{box-sizing:border-box;display:block;position: absolute;left:0;top:0;width:100%;height:100%;}
+    canvas{position: absolute;left:0;top:0px;margin-top:0px;}
     h2,h3{color:white;position:fixed:left:0;top:0;z-index:3;margin:3px 0 0 10px;}
   </style>
     <div style="display:none;">123</div>
@@ -1036,22 +1036,22 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
   <!-- <script src="./alloy-lever.js"></script> -->
   <script>
     AlloyLever.config({
-      cdn:'//s.url.cn/qqun/qun/qqweb/m/qun/confession/js/vconsole.min.js',  //vconsole的CDN地址
+      cdn:'//s.url.cn/qqun/qun/qqweb/m/qun/confession/js/vconsole.min.js',  
       reportUrl: "",  //错误上报地址
       reportPrefix: 'qun',    //错误上报msg前缀，一般用于标识业务类型
       reportKey: 'msg',        //错误上报msg前缀的key，用户上报系统接收存储msg
       otherReport: {              //需要上报的其他信息
-        uin: 491862102
+       
       },
-      entry:"body"          //请点击这个DOM元素6次召唤vConsole。//你可以通过AlloyLever.entry('#entry2')设置多个机关入口召唤神龙
+      entry:"body"         
     })
-    alert(43211)
+    alert(99999)
   </script>
   <script src="//static.xyimg.net/gamesite/mu/mufed/common/js/cax.min.js"></script>
   <img id="pic1" style="display: none;" crossorigin src="//static.xyimg.net/gamesite/mu/mufed/blackhole.png" alt="">
   <img id="pic2" style="display: none;" crossorigin src="//static.xyimg.net/gamesite/mu/mufed/date_pic.jpg" alt="">
+  <img id="pic3" style="display: none;" crossorigin src="//static.xyimg.net/gamesite/mu/mufed/O3O.jpg" alt="">
   <script>
-  
     
   onload = ()=>{
     var stage = new cax.Stage(innerWidth,innerHeight,'body')
@@ -1065,205 +1065,12 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
 
     var markers = []
 
-    class Blessing extends cax.Group {
-      constructor(){
-        super()
-        
-        // this.add(new cax.Rect(100,100,{fillStyle:'fuchsia'}))
-        // var str = 'ABCDEF'
-        var str = '国庆节快乐鸭'
-        // var str = '国庆'
-
-        str.split('').forEach(s=>{
-          var text = new cax.Text(s, {
-            font: '54px Arial',
-            color: 'white',
-            baseline: 'middle',
-            textAlign: 'center'
-          })  
-          this.add(text)
-
-          text.shadow = {
-            color: '#3beef7',
-            offsetX: 0,
-            offsetY: 0,
-            blur: 10
-          }
-          text.r = text.getWidth()
-          
-          text.scale = 0
-
-          text.xx = 50+Math.random()*(stage.width-50)
-          text.yy = 50+Math.random()*(stage.height-50)
-
-          text.befx = text.befy = 0
-        })
-        
-
-        var f = (o,range,count)=>{
-         
-          if(!this.getNoOverlapPo(o,range)){
-            
-            if(++count>20000){
-              return console.warn('。。。')
-            }
-          
-            f(o,range,count)
-          }
-        }
-
-        this.children.forEach(o=>{
-          f(o,{x:stage.width,y:stage.height},0)
-        })
-        
-        // this.outHole()
-
-      }
-      getNoOverlapPo(o,range={x:0,y:0}){
-        var k= true
-        o.xx = 50+(range.x-50)*Math.random()
-        o.yy = 50+(range.y-50)*Math.random()
-          
-        //与每个做检测
-        for(let i = 0,len = this.children.length;i<len;i++){
-          let o2 = this.children[i]
-          if(o === o2) continue
-
-          let dx = o2.xx - o.xx
-            ,dy = o2.yy - o.yy
-            ,d = Math.sqrt(dx*dx+dy*dy);
-
-          if(d < (o.r+o2.r)*1){
-            k = false
-        
-          }
-        }
-        
-        return k
-      }
-      setChildPo(x,y){
-        this.children.forEach((o)=>{
-          o.x = x
-          o.y = y
-          o.befx = x
-          o.befy = y
-        })
-      }
-      backHole(){
-         this.children.forEach((text,i)=>{
-          
-          //console.log({scale:1,x:text.x,y:text.y},{scale:0,x:text.befx,y:text.befy});
-          var difx = 15-Math.random()*30
-          new TWEEN.Tween({scale:1,x:text.x,y:text.y})
-          .to({scale:0,x:text.befx,y:text.befy},1666)
-          .easing(TWEEN.Easing.Quartic.Out)
-          .delay(i*233)
-          .onUpdate(function(){
-            text.scale = this.scale
-            text.x = this.x+ Math.sin(this.scale*Math.PI)*difx
-            text.y = this.y
-
-            //console.log(text.x,text.y);
-            //debugger 
-          })
-          .onComplete(function(){
-            
-          })
-          .start()
-
-        })
-      }
-      outHole(){
-        this.children.forEach((text,i)=>{
-
-          var difx = 15-Math.random()*30
-          new TWEEN.Tween({scale:0,x:text.x,y:text.y})
-          .to({scale:1,x:text.xx,y:text.yy},1666)
-          .easing(TWEEN.Easing.Quartic.Out)
-          .delay(i*566)
-          .onUpdate(function(){
-            text.scale = this.scale
-            text.x = this.x + Math.sin(this.scale*Math.PI)*difx
-            text.y = this.y
-            //debugger 
-          })
-          .onComplete(function(){
-            
-          })
-          .start()
-
-        })
-      }
-      update(){
-
-      }
-    }
-    
     var scan_group = new cax.Group()
     stage.add(scan_group)
 
     var hole_group = new cax.Group()
     stage.add(hole_group)
 
-    var blessing = new Blessing()
-    stage.add(blessing)
-    
-    var date_pic = new cax.Bitmap(pic2)
-    stage.add(date_pic)
-
-    //debugger
-    // 573 423
-    date_pic.originX = 573*.5
-    date_pic.originY = 423*.5
-    date_pic.default_scale = .56
-    date_pic.scale = date_pic.default_scale
-    date_pic.scale = 0
-    date_pic.rotation = -260
-
-    date_pic.outHole = function(fin={x:0,y:0}){
-      var that = this
-      var difx = 15-Math.random()*30
-      // console.log(
-      //   {scale:0,x:this.x,y:this.y,rotation:this.rotation}
-      //   ,{scale:date_pic.default_scale,x:fin.x,y:fin.y,rotation:0}
-      // );
-      new TWEEN.Tween({scale:0,x:this.x,y:this.y,rotation:this.rotation})
-      .to({scale:date_pic.default_scale,x:fin.x,y:fin.y,rotation:0},888)
-      .easing(TWEEN.Easing.Quartic.Out)
-      .onUpdate(function(){
-        that.scale = this.scale
-        that.x = this.x + Math.sin(this.scale*Math.PI)*difx
-        that.y = this.y
-        that.rotation = this.rotation
-        // console.log(this.x,this.y,this.scale);
-        //debugger 
-      })
-      .onComplete(function(){
-        
-      })
-      .start()
-    }
-
-   // date_pic.outHole({x:stage.width*.5,y:stage.height*.5})
-
-    // date_pic.x = stage.width*.5
-    // date_pic.y  =stage.height*.5
-    // blessing.outHole()
-
-    // setTimeout(()=>{
-    //   blessing.backHole()
-    // },6666)
-    
-
-    // var scan_line_group = new cax.Group()
-    // stage.add(scan_line_group)
-
-
-    // var sline = new ScanLine()
-    // scan_line_group.add(sline)
-    
-    // pic1
-    // debugger
 
     class BlackHole extends cax.Group {
       constructor(){
@@ -1291,7 +1098,7 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
         var that = this
         new TWEEN.Tween({scale:0})
         .easing(TWEEN.Easing.Quartic.InOut)
-        .to({scale:this.default_scale+.2},2333)
+        .to({scale:this.default_scale+.43},2333)
         .onUpdate(function(){
           that.scale = this.scale
         })
@@ -1405,7 +1212,79 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
     }
     
 
-   
+    var date_pic = new cax.Bitmap(pic2)
+    stage.add(date_pic)
+    
+    //debugger
+    // 573 423
+    date_pic.originX = 573*.5
+    date_pic.originY = 423*.5
+    date_pic.default_scale = .5
+    date_pic.scale = date_pic.default_scale
+    date_pic.scale = 0
+    date_pic.rotation = -720
+
+    date_pic.outHole = function(fin={x:0,y:0}){
+      var that = this
+      var difx = 15-Math.random()*30
+      // console.log(
+      //   {scale:0,x:this.x,y:this.y,rotation:this.rotation}
+      //   ,{scale:date_pic.default_scale,x:fin.x,y:fin.y,rotation:0}
+      // );
+      new TWEEN.Tween({scale:0,x:this.x,y:this.y,rotation:this.rotation})
+      .to({scale:date_pic.default_scale,x:fin.x,y:fin.y,rotation:0},1666)
+      //.easing(TWEEN.Easing.Quartic.InOut)
+      .onUpdate(function(){
+        that.scale = this.scale
+        that.x = this.x + Math.sin(this.scale*Math.PI*2)*difx
+        that.y = this.y
+        that.rotation = this.rotation
+      })
+      .onComplete(function(){
+        
+      })
+      .start()
+
+    }
+
+
+
+    //date_pic.outHole({x:stage.width*.5,y:stage.height*.5})
+
+    var O3O = new cax.Bitmap(pic3)
+    stage.add(O3O)
+    //600 498
+    Object.assign(O3O,{
+      originX: 600*.5
+      ,originY: 498*.5
+      ,scale: .25
+      ,x: stage.width*.5
+      ,y: stage.height - 493*.25*.6
+      ,visible: false
+    })
+
+
+    var blessing_text = new cax.Text('国庆节快乐O3O', {
+      font: '35px Arial',
+      color: 'white',
+      baseline: 'middle',
+      textAlign: 'center'
+    })
+    stage.add(blessing_text)
+    blessing_text.shadow = {
+      color: '#3beef7',
+      offsetX: 0,
+      offsetY: 0,
+      blur: 10
+    }
+    Object.assign(blessing_text,{
+      x:stage.width*.5
+      ,y:60
+      ,visible:false
+    })
+
+
+    //date_pic.outHole({x:stage.width*.5,y:stage.height*.5})
 
     var drawCorners = (markers)=> {
       var corners, corner, i, j
@@ -1426,31 +1305,29 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
 
           hole.onExpansion(()=>{
             scan.fadeOut()
-
-            //alert('expansion')
-            blessing.setChildPo(hole.x,hole.y)
+            
             date_pic.x = hole.x
             date_pic.y = hole.y
+
             
-            new Promise(r=>{
-              blessing.outHole()
-              setTimeout(()=>{
-                blessing.backHole()
-                r()
-              },6666)
-            })
-            .then(res=>{
-              //alert('res2')
-              return new Promise(r=>{
-                setTimeout(()=>{
-                  r()
-                },2333)
+            date_pic.outHole({x:stage.width*.5,y:stage.height*.5})
+
+            setTimeout(()=>{
+              Object.assign(O3O,{
+                visible:true
+                ,y: date_pic.y + date_pic.originY*date_pic.scale + O3O.originY*O3O.scale*1.43
               })
-            })
-            .then(res=>{
-              //alert('res3')
-              date_pic.outHole({x:stage.width*.5,y:stage.height*.5})
-            })
+              
+
+              Object.assign(blessing_text,{
+                visible:true
+                ,y: date_pic.y - date_pic.originY*date_pic.scale - 60
+              })
+
+              console.log(blessing_text.y,O3O.y);
+           
+            },1888)
+       
             
 
           })
@@ -1496,7 +1373,7 @@ AR.Detector.prototype.rotate2 = function(src, rotation){
     })
 
 
-
+    
 
     /////////////
    
